@@ -1,5 +1,6 @@
 import React from 'react'
 import Navbar from '../Navbar'
+import Link from 'next/link'
 
 function Header() {
   return (
@@ -18,7 +19,10 @@ function Header() {
             </p>
             
             <p className='mt-3 text-sm text-center max-w-3xl mx-auto text-slate-500'>
-              Created by <a href='https://nicolasguarini.it' className='underline'>Nicolas Guarini</a>.
+              Created by 
+              <Link href='https://nicolasguarini.it' passHref>
+                <a className="underline" target="_blank" rel="noopener noreferrer">Nicolas Guarini</a>
+              </Link>.
             </p>
           </div>
         </div>
