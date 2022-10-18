@@ -19,10 +19,7 @@ function Header() {
             </p>
             
             <p className='mt-3 text-sm text-center max-w-3xl mx-auto text-slate-500'>
-              Created by 
-              <Link href='https://nicolasguarini.it' passHref>
-                <a className="underline" target="_blank" rel="noopener noreferrer">Nicolas Guarini</a>
-              </Link>.
+              Created by <a href='https://nicolasguarini.it' className="underline" target="_blank" rel="noopener noreferrer">Nicolas Guarini</a>.
             </p>
           </div>
         </div>
