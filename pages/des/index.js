@@ -20,7 +20,7 @@ export default function DES() {
       const res = await fetch(`/api/des?plaintext=${plaintext}&key=${key}`)
       const data = await res.json()
 
-      setCyphertext(data.cyphertext)
+      setCyphertext(data.ciphertext)
     }catch(err){
       console.log(err)
     }
@@ -50,7 +50,7 @@ export default function DES() {
 
               <div>
                 <label className='block mb-3 text-slate-300' >Key (56 bit)</label>
-                <input name='key' type="text" className='bg-slate-900 border rounded-lg p-2 w-[100%] border-slate-500'/>
+                <input name='key' type="text" maxLength='8' className='bg-slate-900 border rounded-lg p-2 w-[100%] border-slate-500'/>
               </div>
             </div>
             
@@ -62,7 +62,7 @@ export default function DES() {
 
           <div className='flex justify-center'>
             <div className='mt-9'>
-              <label className='block mb-3 text-slate-300'>Cyphertext (Base64)</label>
+              <label className='block mb-3 text-slate-300'>Cyphertext (Mode: ECB, Encoded in Base64)</label>
               <input name='cyphertext' value={cyphertext} type="text" className='bg-slate-900 border rounded-lg p-2 border-slate-500 w-[80vw] md:w-[40vw]' disabled/>
             </div>
           </div>
