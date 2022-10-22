@@ -4,27 +4,41 @@ import Layout from '../../components/layout/Layout'
 import AlgorithmHeader from '../../components/ui/AlgorithmHeader'
 
 export default function DES() {
-  const [cyphertext, setCyphertext] = useState('')
+  const modes = ['ECB', 'CBC', 'CFB', 'OFB', 'CTR']
 
-  const handleSubmit = async (event) => {
+  const [ciphertext, setCiphertext] = useState('')
+  const [plaintext, setPlaintext] = useState('')
+  const [key, setKey] = useState('')
+  const [mode, setMode] = useState('ECB')
+  const [IV, setIV] = useState('')
+
+  const handleEncryptBtnClick = async (event) => {
     event.preventDefault()
+    
+    let requestString = `plaintext=${plaintext}&key=${key}&mode=${mode}`
+    if(mode != 'ECB') requestString += `&iv=${IV}`
 
-    const enteredKey = event.target.key.value
-    const enteredPlaintext = event.target.plaintext.value
-
-    await encrypt(enteredPlaintext, enteredKey)
-  }
-
-  const encrypt = async (plaintext, key) => {
     try{
-      const res = await fetch(`/api/des?plaintext=${plaintext}&key=${key}`)
+      const res = await fetch(`/api/des?${requestString}`)
       const data = await res.json()
 
-      setCyphertext(data.ciphertext)
+      setCiphertext(data.ciphertext)
     }catch(err){
-      console.log(err)
+      console.log(err) //TODO: display error
     }
   }
+
+  const handleDecryptBtnClick = async (event) => {
+    event.preventDefault()
+    
+    console.log("decrypt clicked")
+  }
+
+  const handleCiphertextChange = (event) => setCiphertext(event.target.value)
+  const handlePlaintextChange = (event) => setPlaintext(event.target.value)
+  const handleKeyChange = (event) => setKey(event.target.value)
+  const handleModeChange = (event) => setMode(event.target.value)
+  const handleIVChange = (event) => setIV(event.target.value)
 
   return (
     <Layout>
@@ -40,30 +54,83 @@ export default function DES() {
             </p>
         </AlgorithmHeader>
 
-        <div className='container m-auto'>
-          <form onSubmit={handleSubmit}>
-            <div className='grid gird-cols-1 md:grid-cols-2 gap-12 p-1 md:p-10'>
-              <div>
-                <label className='block mb-3 text-slate-300'>Plaintext (64 bit blocks)</label>
-                <input name='plaintext' type="text" className='bg-slate-900 border rounded-lg p-2 w-[100%] border-slate-500'/>
-              </div>
+        <div className='max-w-5xl m-auto'>
+          <div className='grid gird-cols-1 lg:grid-cols-10 gap-x-5 md:gap-x-7 xl:gap-x-9 gap-y-7 p-1 md:p-10'>
+            <div className='item col-span-5'>
+              <label className='block mb-3 text-slate-300'>Plaintext (64 bit blocks)</label>
+              
+              <input 
+                name='plaintext' 
+                type="text" 
+                value={plaintext}
+                onChange={handlePlaintextChange}
+                className='bg-slate-900 border rounded-lg p-2 w-[100%] border-slate-500'
+              />
+            </div>
 
-              <div>
-                <label className='block mb-3 text-slate-300' >Key (56 bit)</label>
-                <input name='key' type="text" maxLength='8' className='bg-slate-900 border rounded-lg p-2 w-[100%] border-slate-500'/>
+            <div className='item col-span-4'>
+              <label className='block mb-3 text-slate-300' >Key (56 bit)</label>
+
+              <input 
+                name='key' 
+                type="text" 
+                value={key}
+                onChange={handleKeyChange}
+                maxLength='8' 
+                className='bg-slate-900 border rounded-lg p-2 w-[100%] border-slate-500'
+              />
+            </div>
+
+            <div className='item col-span-1'>
+              <label className='block mb-3 text-slate-300'>Mode</label>
+
+              <select value={mode} onChange={handleModeChange} className='text-slate-200 w-[100%] py-2 border border-solid border-slate-500 rounded-lg bg-slate-900'>
+                {modes.map((mode) => <option value={mode}>{mode}</option>)}
+              </select>
+            </div>
+          </div>
+
+          {mode != 'ECB' && 
+            <div className='flex justify-center'>
+              <div className='mb-0 md:mb-10 mt-6 md:mt-0'>
+                <label className='block mb-3 text-slate-300'>Initialization Vector (IV)</label>
+                <input 
+                  name='iv' 
+                  value={IV} 
+                  onChange={handleIVChange}
+                  type="text" 
+                  className='bg-slate-900 border rounded-lg p-2 border-slate-500 w-[80vw] md:w-[40vw]'
+                />
               </div>
             </div>
-            
-            <button type='submit' className='block border border-solid border-slate-500 rounded-lg bg-slate-100 text-slate-800 px-20 py-2 mt-10 md:mt-0 font-bold m-auto'>
+          }
+          
+          <div className='block text-center'>
+            <button 
+              onClick={handleEncryptBtnClick}
+              className='block md:inline border border-solid border-slate-500 rounded-lg bg-slate-100 text-slate-800 px-20 py-2 mt-10 md:mt-0 font-bold m-auto'
+            >
               Encrypt
             </button>
-          </form>
-          
 
+            <button 
+              onClick={handleDecryptBtnClick}
+              className='block md:inline md:ml-5 border border-solid border-slate-500 rounded-lg bg-slate-100 text-slate-800 px-20 py-2 mt-10 md:mt-0 font-bold m-auto'
+            >
+              Decrypt
+            </button>
+          </div>
+          
           <div className='flex justify-center'>
             <div className='mt-9'>
-              <label className='block mb-3 text-slate-300'>Cyphertext (Mode: ECB, Encoded in Base64)</label>
-              <input name='cyphertext' value={cyphertext} type="text" className='bg-slate-900 border rounded-lg p-2 border-slate-500 w-[80vw] md:w-[40vw]' disabled/>
+              <label className='block mb-3 text-slate-300'>Cyphertext (Encoded in Base64)</label>
+              <input 
+                name='ciphertext' 
+                value={ciphertext} 
+                onChange={handleCiphertextChange}
+                type="text" 
+                className='bg-slate-900 border rounded-lg p-2 border-slate-500 w-[80vw] md:w-[40vw]'
+              />
             </div>
           </div>
         </div>

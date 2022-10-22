@@ -19,52 +19,41 @@ export default function Home() {
           name='Data Encryption System'
           keyBits='56 bits'
           securityLevel='Low'
-          bruteForceTime='25h'
+          bruteForceTime='22 hours'
         />
         <Card 
-          destination='/des'
-          shortName='DES'
-          name='Data Encryption System'
-          keyBits='56 bits'
-          securityLevel='Low'
-          bruteForceTime='25h'
+          destination='/tdes'
+          shortName='TDES'
+          name='Triple DES'
+          keyBits='168 bits'
+          securityLevel='Medium'
+          bruteForceTime='Trillion years'
         />
         <Card 
-          destination='/des'
-          shortName='DES'
-          name='Data Encryption System'
-          keyBits='56 bits'
-          securityLevel='Low'
-          bruteForceTime='25h'
-        />
-        
-        <Card 
-          destination='/des'
-          shortName='DES'
-          name='Data Encryption System'
-          keyBits='56 bits'
-          securityLevel='Low'
-          bruteForceTime='25h'
+          destination='/aes?bits=128'
+          shortName='AES-128'
+          name='Advanced Encryption Standard'
+          keyBits='128 bits'
+          securityLevel='High'
+          bruteForceTime='Trillion years'
         />
         <Card 
-          destination='/des'
-          shortName='DES'
-          name='Data Encryption System'
-          keyBits='56 bits'
-          securityLevel='Low'
-          bruteForceTime='25h'
+          destination='/aes?bits=192'
+          shortName='AES-192'
+          name='Advanced Encryption Standard'
+          keyBits='192 bits'
+          securityLevel='High'
+          bruteForceTime='Trillion years'
         />
         <Card 
-          destination='/des'
-          shortName='DES'
-          name='Data Encryption System'
-          keyBits='56 bits'
-          securityLevel='Low'
-          bruteForceTime='25h'
+          destination='/aes?bits=256'
+          shortName='AES-256'
+          name='Advanced Encryption Standard'
+          keyBits='256 bits'
+          securityLevel='Very High'
+          bruteForceTime='Trillion years'
         />
       </div>
-
-      <Footer />
     </Layout>
   )
 }
