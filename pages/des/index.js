@@ -2,19 +2,23 @@ import Head from 'next/head'
 import React, { useState } from 'react'
 import Layout from '../../components/layout/Layout'
 import AlgorithmHeader from '../../components/ui/AlgorithmHeader'
+import Loader from '../../components/ui/Loader'
 
 export default function DES() {
-  const modes = ['ECB', 'CBC', 'CFB', 'OFB', 'CTR', 'PIP']
+  const modes = ['ECB', 'CBC', 'CFB', 'OFB', 'CTR']
 
   const [ciphertext, setCiphertext] = useState('')
   const [plaintext, setPlaintext] = useState('')
   const [key, setKey] = useState('')
   const [mode, setMode] = useState('ECB')
   const [IV, setIV] = useState('')
+  const [encryptBtnContent, setEncryptBtnContent] = useState('Encrypt')
+  const [decryptBtnContent, setDecryptBtnContent] = useState('Decrypt')
 
   const handleEncryptBtnClick = async (event) => {
     event.preventDefault()
-    
+    setEncryptBtnContent(<Loader />)
+
     let requestString = `plaintext=${plaintext}&key=${key}&mode=${mode}`
     if(mode != 'ECB') requestString += `&iv=${IV}`
 
@@ -30,14 +34,19 @@ export default function DES() {
         console.log(data.message)
       }
     }catch(error){
-      console.log(error) //TODO: display error
+      console.log(error)
     }
+
+    setEncryptBtnContent('Encrypt')
   }
 
   const handleDecryptBtnClick = async (event) => {
     event.preventDefault()
+    setDecryptBtnContent(<Loader />)
+
+    console.log("decrypt clicked") //TODO: implement decrypt function
     
-    console.log("decrypt clicked")
+    setDecryptBtnContent('Decrypt')
   }
 
   const handleCiphertextChange = (event) => setCiphertext(event.target.value)
@@ -114,16 +123,16 @@ export default function DES() {
           <div className='block text-center'>
             <button 
               onClick={handleEncryptBtnClick}
-              className='block md:inline border border-solid border-slate-500 rounded-lg bg-slate-100 text-slate-800 px-20 py-2 mt-10 md:mt-0 font-bold m-auto'
+              className='block md:inline border border-solid border-gray-600 rounded-lg bg-gray-800 hover:text-white hover:bg-gray-700 px-20 py-2 mt-10 md:mt-0 font-medium m-auto'
             >
-              Encrypt
+              {encryptBtnContent}
             </button>
 
             <button 
               onClick={handleDecryptBtnClick}
-              className='block md:inline md:ml-5 border border-solid border-slate-500 rounded-lg bg-slate-100 text-slate-800 px-20 py-2 mt-10 md:mt-0 font-bold m-auto'
+              className='block md:inline md:ml-5 border border-solid border-gray-600 rounded-lg bg-gray-800 hover:text-white hover:bg-gray-700 px-20 py-2 mt-10 md:mt-0 font-medium m-auto'
             >
-              Decrypt
+              {decryptBtnContent}
             </button>
           </div>
           
