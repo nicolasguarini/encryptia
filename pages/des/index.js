@@ -4,7 +4,7 @@ import Layout from '../../components/layout/Layout'
 import AlgorithmHeader from '../../components/ui/AlgorithmHeader'
 
 export default function DES() {
-  const modes = ['ECB', 'CBC', 'CFB', 'OFB', 'CTR']
+  const modes = ['ECB', 'CBC', 'CFB', 'OFB', 'CTR', 'PIP']
 
   const [ciphertext, setCiphertext] = useState('')
   const [plaintext, setPlaintext] = useState('')
@@ -21,10 +21,16 @@ export default function DES() {
     try{
       const res = await fetch(`/api/des?${requestString}`)
       const data = await res.json()
-
-      setCiphertext(data.ciphertext)
-    }catch(err){
-      console.log(err) //TODO: display error
+      const status = res.status
+      
+      if(status == 200){
+        setCiphertext(data.ciphertext)
+        console.log("OK")
+      }else{
+        console.log(data.message)
+      }
+    }catch(error){
+      console.log(error) //TODO: display error
     }
   }
 
@@ -84,7 +90,7 @@ export default function DES() {
             <div className='item col-span-1'>
               <label className='block mb-3 text-slate-300'>Mode</label>
 
-              <select value={mode} onChange={handleModeChange} className='text-slate-200 w-[100%] py-2 border border-solid border-slate-500 rounded-lg bg-slate-900'>
+              <select value={mode} onChange={handleModeChange} className='text-slate-200 w-[100%] px-1 py-2 border border-solid border-slate-500 rounded-lg bg-slate-900'>
                 {modes.map((mode) => <option value={mode}>{mode}</option>)}
               </select>
             </div>
