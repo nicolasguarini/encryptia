@@ -91,7 +91,7 @@ export default function DES() {
               <label className='block mb-3 text-slate-300'>Mode</label>
 
               <select value={mode} onChange={handleModeChange} className='text-slate-200 w-[100%] px-1 py-2 border border-solid border-slate-500 rounded-lg bg-slate-900'>
-                {modes.map((mode) => <option value={mode}>{mode}</option>)}
+                {modes.map((mode) => <option key={mode} value={mode}>{mode}</option>)}
               </select>
             </div>
           </div>
