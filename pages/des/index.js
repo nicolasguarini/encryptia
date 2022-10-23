@@ -29,7 +29,6 @@ export default function DES() {
       
       if(status == 200){
         setCiphertext(data.ciphertext)
-        console.log("OK")
       }else{
         console.log(data.message)
       }
@@ -42,9 +41,25 @@ export default function DES() {
 
   const handleDecryptBtnClick = async (event) => {
     event.preventDefault()
+    setPlaintext('')
     setDecryptBtnContent(<Loader />)
 
-    console.log("decrypt clicked") //TODO: implement decrypt function
+    let requestString = `key=${key}&mode=${mode}&ciphertext=${ciphertext}`
+    if(mode != 'ECB') requestString += `&iv=${IV}`
+
+    try{
+      const res = await fetch(`/api/des?${requestString}`)
+      const data = await res.json()
+      const status = res.status
+
+      if(status == 200){
+        setPlaintext(data.plaintext)
+      }else{
+        console.log(data.message)
+      }
+    }catch(error){
+      console.log(error)
+    }
     
     setDecryptBtnContent('Decrypt')
   }
