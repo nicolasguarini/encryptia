@@ -2,23 +2,26 @@
 
 export default function handler(req, res) {
     if(req.method == 'GET'){
-        const modes = ['ECB', 'CBC', 'CFB', 'OFB', 'CTR']
+        const CryptoJS = require('crypto-js')
+        const modesMap = new Map([
+            ['ECB', CryptoJS.mode.ECB],
+            ['CBC', CryptoJS.mode.CBC],
+            ['CFB', CryptoJS.mode.CFB],
+            ['OFB', CryptoJS.mode.OFB],
+            ['CTR', CryptoJS.mode.CTR]
+        ])
+
         const query = req.query
         const {plaintext, key, mode, ciphertext, iv} = query
         
-        if(!modes.includes(mode)){
+        if(!modesMap.has(mode)){
             res.status(400).send({
                 message: `Specified mode '${mode}' not supported by DES`
             })
         }else{
-            const CryptoJS = require('crypto-js')
-            var keyHex = CryptoJS.enc.Utf8.parse(key)
-            var ivHex = iv == null ? CryptoJS.enc.Hex.parse('') : CryptoJS.enc.Hex.parse(CryptoJS.enc.Utf8.parse(iv).toString(CryptoJS.enc.Hex));
-
-            const modeObj = mode == 'CBC' ? CryptoJS.mode.CBC 
-                : mode == 'CFB' ? CryptoJS.mode.CFB
-                : mode == 'OFB' ? CryptoJS.mode.OFB
-                : mode == 'CTR' ? CryptoJS.mode.OFB : CryptoJS.mode.ECB
+            const keyHex = CryptoJS.enc.Utf8.parse(key)
+            const ivHex = iv == null ? CryptoJS.enc.Hex.parse('') : CryptoJS.enc.Hex.parse(CryptoJS.enc.Utf8.parse(iv).toString(CryptoJS.enc.Hex));
+            const modeObj = modesMap.get(mode)
             
             if(ciphertext == null){ //we have to encrypt
                 const encrypted = CryptoJS.DES.encrypt(plaintext, keyHex, {
@@ -56,7 +59,6 @@ export default function handler(req, res) {
                         message: 'Malformed input data'
                     })
                 }
-                
             }
         }
     }
