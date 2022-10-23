@@ -2,6 +2,7 @@ import Head from 'next/head'
 import React, { useState } from 'react'
 import Layout from '../../components/layout/Layout'
 import AlgorithmHeader from '../../components/ui/AlgorithmHeader'
+import ErrorMessage from '../../components/ui/ErrorMessage'
 import Loader from '../../components/ui/Loader'
 
 export default function DES() {
@@ -14,10 +15,12 @@ export default function DES() {
   const [IV, setIV] = useState('')
   const [encryptBtnContent, setEncryptBtnContent] = useState('Encrypt')
   const [decryptBtnContent, setDecryptBtnContent] = useState('Decrypt')
+  const [errorMessage, setErrorMessage] = useState('')
 
   const handleEncryptBtnClick = async (event) => {
     event.preventDefault()
     setEncryptBtnContent(<Loader />)
+    setErrorMessage('')
 
     let requestString = `plaintext=${plaintext}&key=${key}&mode=${mode}`
     if(mode != 'ECB') requestString += `&iv=${IV}`
@@ -29,10 +32,11 @@ export default function DES() {
       
       if(status == 200){
         setCiphertext(data.ciphertext)
-      }else{
-        console.log(data.message)
+      }else if(status == 400){
+        setErrorMessage(<ErrorMessage>{data.message}</ErrorMessage>)
       }
     }catch(error){
+      setErrorMessage(<ErrorMessage>An error occurred</ErrorMessage>)
       console.log(error)
     }
 
@@ -43,6 +47,7 @@ export default function DES() {
     event.preventDefault()
     setPlaintext('')
     setDecryptBtnContent(<Loader />)
+    setErrorMessage('')
 
     let requestString = `key=${key}&mode=${mode}&ciphertext=${ciphertext}`
     if(mode != 'ECB') requestString += `&iv=${IV}`
@@ -54,10 +59,11 @@ export default function DES() {
 
       if(status == 200){
         setPlaintext(data.plaintext)
-      }else{
-        console.log(data.message)
+      }else if(status == 400){
+       setErrorMessage(<ErrorMessage>{data.message}</ErrorMessage>)
       }
     }catch(error){
+      setErrorMessage(<ErrorMessage>An error occurred</ErrorMessage>)
       console.log(error)
     }
     
@@ -149,6 +155,8 @@ export default function DES() {
             >
               {decryptBtnContent}
             </button>
+
+            {errorMessage}
           </div>
           
           <div className='flex justify-center'>
