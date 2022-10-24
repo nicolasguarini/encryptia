@@ -5,12 +5,11 @@ import Layout from '../components/layout/Layout'
 import AlgorithmHeader from '../components/ui/AlgorithmHeader'
 import ErrorMessage from '../components/ui/ErrorMessage'
 import Loader from '../components/ui/Loader'
+import * as Constants from '../utils/constants'
 
 export default function DES() {
   const router = useRouter()
   const triple = router.query.triple === 'true'
-
-  const modes = ['ECB', 'CBC', 'CFB', 'OFB', 'CTR']
 
   const [ciphertext, setCiphertext] = useState('')
   const [plaintext, setPlaintext] = useState('')
@@ -131,7 +130,7 @@ export default function DES() {
               <label className='block mb-3 text-slate-300'>Mode</label>
 
               <select value={mode} onChange={handleModeChange} className='text-slate-200 w-[100%] px-1 py-2 border border-solid border-slate-500 rounded-lg bg-slate-900'>
-                {modes.map((mode) => <option key={mode} value={mode}>{mode}</option>)}
+                {Constants.modes.map((mode) => <option key={mode} value={mode}>{mode}</option>)}
               </select>
             </div>
           </div>

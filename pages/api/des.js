@@ -1,28 +1,22 @@
 //api/des
+import * as Constants from '../../utils/constants'
 
 export default function handler(req, res) {
     if(req.method == 'GET'){
         const CryptoJS = require('crypto-js')
-        const modesMap = new Map([
-            ['ECB', CryptoJS.mode.ECB],
-            ['CBC', CryptoJS.mode.CBC],
-            ['CFB', CryptoJS.mode.CFB],
-            ['OFB', CryptoJS.mode.OFB],
-            ['CTR', CryptoJS.mode.CTR]
-        ])
-
+        
         const query = req.query
         const {plaintext, key, mode, triple, ciphertext, iv} = query
         const cryptoObj = triple === 'true' ? CryptoJS.TripleDES : CryptoJS.DES
         
-        if(!modesMap.has(mode)){
+        if(!Constants.modesMap.has(mode)){
             res.status(400).send({
                 message: `Specified mode '${mode}' not supported by DES`
             })
         }else{
             const keyHex = CryptoJS.enc.Utf8.parse(key)
             const ivHex = iv == null ? CryptoJS.enc.Hex.parse('') : CryptoJS.enc.Hex.parse(CryptoJS.enc.Utf8.parse(iv).toString(CryptoJS.enc.Hex));
-            const modeObj = modesMap.get(mode)
+            const modeObj = Constants.modesMap.get(mode)
             
             if(ciphertext == null){ //we have to encrypt
                 try{
