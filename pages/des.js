@@ -1,11 +1,15 @@
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import React, { useState } from 'react'
-import Layout from '../../components/layout/Layout'
-import AlgorithmHeader from '../../components/ui/AlgorithmHeader'
-import ErrorMessage from '../../components/ui/ErrorMessage'
-import Loader from '../../components/ui/Loader'
+import Layout from '../components/layout/Layout'
+import AlgorithmHeader from '../components/ui/AlgorithmHeader'
+import ErrorMessage from '../components/ui/ErrorMessage'
+import Loader from '../components/ui/Loader'
 
 export default function DES() {
+  const router = useRouter()
+  const triple = router.query.triple === 'true'
+
   const modes = ['ECB', 'CBC', 'CFB', 'OFB', 'CTR']
 
   const [ciphertext, setCiphertext] = useState('')
@@ -24,6 +28,7 @@ export default function DES() {
 
     let requestString = `plaintext=${plaintext}&key=${key}&mode=${mode}`
     if(mode != 'ECB') requestString += `&iv=${IV}`
+    if(triple) requestString += '&triple=true'
 
     try{
       const res = await fetch(`/api/des?${requestString}`)
@@ -36,8 +41,7 @@ export default function DES() {
         setErrorMessage(<ErrorMessage>{data.message}</ErrorMessage>)
       }
     }catch(error){
-      setErrorMessage(<ErrorMessage>An error occurred</ErrorMessage>)
-      console.log(error)
+      setErrorMessage(<ErrorMessage>{error.toString()}</ErrorMessage>)
     }
 
     setEncryptBtnContent('Encrypt')
@@ -51,6 +55,7 @@ export default function DES() {
 
     let requestString = `key=${key}&mode=${mode}&ciphertext=${ciphertext}`
     if(mode != 'ECB') requestString += `&iv=${IV}`
+    if(triple) requestString += '&triple=true'
 
     try{
       const res = await fetch(`/api/des?${requestString}`)
@@ -63,8 +68,7 @@ export default function DES() {
        setErrorMessage(<ErrorMessage>{data.message}</ErrorMessage>)
       }
     }catch(error){
-      setErrorMessage(<ErrorMessage>An error occurred</ErrorMessage>)
-      console.log(error)
+      setErrorMessage(<ErrorMessage>{error.toString()}</ErrorMessage>)
     }
     
     setDecryptBtnContent('Decrypt')
@@ -79,15 +83,21 @@ export default function DES() {
   return (
     <Layout>
         <Head>
-            <title>DES | encryptia</title>
+            <title>{triple ? 'TDES' : 'DES'} | encryptia</title>
         </Head>
 
-        <AlgorithmHeader name="Data Encryption System">
+        <AlgorithmHeader name={triple ? 'Triple Data Encryption System' :  'Data Encryption System'}>
+          {triple ? 
+            <p>
+              Triple DES is a block cipher based on repeating the Data Encryption Standard (DES) three times. <br />
+              When it was discovered that the DES 56-bit key was not long enough to provide security against brute force attacks, TDES was chosen as an easy way to increase the length of the key without changing the algorithm. Using three steps is essential to prevent meet-in-the-middle attacks that work against DES double encryption.
+            </p> :
             <p>
               The Data Encryption Standard (DES) is a symmetric-key algorithm developed in early 1970s for the encryption of digital data. <br />
               Although its short key length of 56 bits makes it too insecure for modern applications, it has been highly influential in the advancement of cryptography. 
               Despite the criticisms, DES was approved as a federal standard in November 1976, and published on 15 January 1977 as FIPS PUB 46, authorized for use on all unclassified data.
             </p>
+          }
         </AlgorithmHeader>
 
         <div className='max-w-5xl m-auto'>
@@ -105,14 +115,14 @@ export default function DES() {
             </div>
 
             <div className='item col-span-4'>
-              <label className='block mb-3 text-slate-300' >Key (56 bit)</label>
+              <label className='block mb-3 text-slate-300' >Key ({triple ? 168 : 56} bit)</label>
 
               <input 
                 name='key' 
                 type="text" 
                 value={key}
                 onChange={handleKeyChange}
-                maxLength='8' 
+                maxLength={triple ? '' : '8'} 
                 className='bg-slate-900 border rounded-lg p-2 w-[100%] border-slate-500'
               />
             </div>

@@ -22,7 +22,10 @@ export default function Home() {
           bruteForceTime='22 hours'
         />
         <Card 
-          destination='/tdes'
+          destination={{
+            pathname: '/des',
+            query: {triple: true}
+          }}
           shortName='TDES'
           name='Triple DES'
           keyBits='168 bits'
