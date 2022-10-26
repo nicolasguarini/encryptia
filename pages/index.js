@@ -21,6 +21,7 @@ export default function Home() {
           securityLevel='Low'
           bruteForceTime='22 hours'
         />
+
         <Card 
           destination={{
             pathname: '/des',
@@ -32,24 +33,36 @@ export default function Home() {
           securityLevel='Medium'
           bruteForceTime='Trillion years'
         />
+
         <Card 
-          destination='/aes?bits=128'
+          destination={{
+            pathname: '/aes',
+            query: {bits: '128'}
+          }}
           shortName='AES-128'
           name='Advanced Encryption Standard'
           keyBits='128 bits'
           securityLevel='High'
           bruteForceTime='Trillion years'
         />
+
         <Card 
-          destination='/aes?bits=192'
+          destination={{
+            pathname: '/aes',
+            query: {bits: '192'}
+          }}
           shortName='AES-192'
           name='Advanced Encryption Standard'
           keyBits='192 bits'
           securityLevel='High'
           bruteForceTime='Trillion years'
         />
+
         <Card 
-          destination='/aes?bits=256'
+          destination={{
+            pathname: '/aes',
+            query: {bits: '256'}
+          }}
           shortName='AES-256'
           name='Advanced Encryption Standard'
           keyBits='256 bits'
