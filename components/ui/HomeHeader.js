@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React from 'react'
 
 function HomeHeader() {
@@ -10,7 +11,8 @@ function HomeHeader() {
           </h1>
 
           <p className='mt-6 text-lg text-center max-w-3xl mx-auto text-slate-400'>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora.
+            You can also use encryptia for your personal projects with the free REST API reachable at <span className='font-mono font-medium text-sky-500'>/api/</span>! <br />
+            For detailed instructions, <Link href="github.com"><a className='underline'>read the docs</a></Link>!
           </p>
           
           <p className='mt-3 text-sm text-center max-w-3xl mx-auto text-slate-500'>
