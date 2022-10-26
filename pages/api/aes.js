@@ -46,5 +46,9 @@ export default function handler(req, res) {
                 message: error.toString()
             })
         }
+    }else if(req.method == 'POST'){
+        res.send(405).json({
+            message: "Method POST Not Allowed"
+        })
     }
 }

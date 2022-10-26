@@ -36,7 +36,7 @@ export default function DES() {
       
       if(status == 200){
         setCiphertext(data.ciphertext)
-      }else if(status == 400){
+      }else{
         setErrorMessage(<ErrorMessage>{data.message}</ErrorMessage>)
       }
     }catch(error){
@@ -63,7 +63,7 @@ export default function DES() {
 
       if(status == 200){
         setPlaintext(data.plaintext)
-      }else if(status == 400){
+      }else{
        setErrorMessage(<ErrorMessage>{data.message}</ErrorMessage>)
       }
     }catch(error){
@@ -170,7 +170,7 @@ export default function DES() {
           
           <div className='flex justify-center'>
             <div className='mt-9'>
-              <label className='block mb-3 text-slate-300'>Cyphertext (Encoded in Base64)</label>
+              <label className='block mb-3 text-slate-300'>Cyphertext (Hex)</label>
               <input 
                 name='ciphertext' 
                 value={ciphertext} 
