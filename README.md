@@ -22,7 +22,6 @@
 </p>
 
 ## About the project
----
 encryptia is a platform that allows you to encrypt your texts using various algorithms. \
 This is a project designed both for cryptography enthusiasts who want to tinker with the various algorithm configurations via the web application, and for developers who need to encrypt data via the API.
 ### Built with
@@ -71,7 +70,6 @@ encryptia provides several of the best known algorithms, and is in continuous de
 - AES
 
 ## Getting Started
----
 This project is built with Next.js, so you have to satisfy some system requirements:
 
 - Node.js 14.6.0 or newer
@@ -103,7 +101,6 @@ To learn more about Next.js, take a look at the following resources:
 
 
 ## API Usage
----
 The API endpoints can be accessed on `https://encryptia.vercel.app/api/[algorithmName]?[params]`. \
 Every algorithm endpoint can take several params, here is a list:
 
@@ -166,9 +163,7 @@ The API returns a JSON object of this type:
 }
 ```
 
-
 ## Contributing
----
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
@@ -181,9 +176,7 @@ Don't forget to give the project a star! Thanks again!
 5. Open a Pull Request
 
 ## Licence 
----
 Distributed under the MIT Licence. See `LICENCE.md` for more information.
 
 ## Contributors
----
 Nicolas Guarini - [nicolasguarini.it](https://nicolasguarini.it) - [nicolasguarini.py@gmail.com](mailto:nicolasguarini.py@gmail.com)
