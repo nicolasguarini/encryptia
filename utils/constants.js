@@ -9,3 +9,5 @@ export const modesMap = new Map([
 ])
 
 export const modes = [ ...modesMap.keys() ]
+
+export const AESVariants = ['128', '192', '256']
