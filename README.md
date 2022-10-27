@@ -2,9 +2,9 @@
 <p align="center">
     <a href="https://encryptia.vercel.app/" target="_blank">
         <picture>
-            <source media="(prefers-color-scheme: dark)" srcset="https://github.com/nicolasguarini/encryptia/blob/main/.github/logo-dark.svg">
-            <source media="(prefers-color-scheme: light)" srcset="https://github.com/nicolasguarini/encryptia/blob/main/.github/logo-light.svg">
-            <img src="https://github.com/nicolasguarini/encryptia/blob/main/.github/logo-dark.svg" alt="encryptia" width="275">
+            <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nicolasguarini/encryptia/main/.github/logo-dark.svg">
+            <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/nicolasguarini/encryptia/main/.github/logo-light.svg">
+            <img src="https://raw.githubusercontent.com/nicolasguarini/encryptia/main/.github/logo-dark.svg" alt="encryptia" width="275">
         </picture>
     </a>
 </p>
