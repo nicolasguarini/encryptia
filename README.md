@@ -1,9 +1,9 @@
 
 <p align="center">
     <picture>
-        <source media="(prefers-color-scheme: light)" srcset="./.github/logo-light.svg">
+        <source media="(prefers-color-scheme: dark)" srcset="./.github/logo-dark.svg">
         <a href="https://encryptia.vercel.app/" target="_blank">
-            <img src="./.github/logo-dark.svg" alt="encryptia" width="275">
+            <img src="./.github/logo-light.svg" alt="encryptia" width="275">
         </a>
     </picture>
   
