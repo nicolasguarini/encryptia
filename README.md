@@ -1,8 +1,12 @@
 
 <p align="center">
-  <a href="https://encryptia.vercel.app/" target="_blank">
-    <img src="./.github/logo-dark.svg" alt="Heroicons" width="275">
-  </a>
+    <picture>
+        <source media="(prefers-color-scheme: light)" srcset="./.github/logo-light.svg">
+        <a href="https://encryptia.vercel.app/" target="_blank">
+            <img src="./.github/logo-dark.svg" alt="encryptia" width="275">
+        </a>
+    </picture>
+  
 </p>
 
 <p align="center">
