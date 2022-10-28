@@ -1,12 +1,12 @@
 
 <p align="center">
-    <picture>
-        <source media="(prefers-color-scheme: light)" srcset="./.github/logo-light.svg">
-        <a href="https://encryptia.vercel.app/" target="_blank">
-            <img src="./.github/logo-dark.svg" alt="encryptia" width="275">
-        </a>
-    </picture>
-  
+    <a href="https://encryptia.vercel.app/" target="_blank">
+        <picture>
+            <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nicolasguarini/encryptia/main/.github/logo-dark.svg">
+            <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/nicolasguarini/encryptia/main/.github/logo-light.svg">
+            <img src="https://raw.githubusercontent.com/nicolasguarini/encryptia/main/.github/logo-dark.svg" alt="encryptia" width="275">
+        </picture>
+    </a>
 </p>
 
 <p align="center">
