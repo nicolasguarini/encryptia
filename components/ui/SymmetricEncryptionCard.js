@@ -4,9 +4,9 @@ import LockIcon from '../icons/LockIcon'
 import RightArrowIcon from '../icons/RightArrowIcon'
 import KeyIcon from '../icons/KeyIcon'
 import ShieldIcon from '../icons/ShieldIcon'
-import ClockIcon from '../icons/ClockIcon'
+import BookIcon from '../icons/BookIcon'
 
-function Card(props) {
+export default function SymmetricEncryptionCard(props) {
   return (
     <Link href={props.destination}> 
         <a>
@@ -41,10 +41,10 @@ function Card(props) {
                         </span>
                     </div>
                     <div className='mb-2'>
-                        <ClockIcon />
+                        <BookIcon />
 
                         <span className='align-middle'>
-                            {props.bruteForceTime}
+                            {props.encryptionType}
                         </span>
                     </div>
                 </div>
@@ -53,5 +53,3 @@ function Card(props) {
     </Link>
   )
 }
-
-export default Card

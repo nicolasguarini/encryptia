@@ -1,6 +1,5 @@
 import Head from 'next/head';
-import Card from '../components/ui/Card';
-import Footer from '../components/layout/Footer';
+import SymmetricEncryptionCard from '../components/ui/SymmetricEncryptionCard';
 import HomeHeader from '../components/ui/HomeHeader';
 import Layout from '../components/layout/Layout';
 
@@ -13,16 +12,16 @@ export default function Home() {
       </Head>
       
       <div className='container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 m-auto p-10 lg:px-16 xl:px-24 mt-10 gap-12 '>
-        <Card 
+        <SymmetricEncryptionCard 
           destination='/des'
           shortName='DES'
           name='Data Encryption System'
           keyBits='56 bits'
           securityLevel='Low'
-          bruteForceTime='22 hours'
+          encryptionType='Symmetric'
         />
 
-        <Card 
+        <SymmetricEncryptionCard 
           destination={{
             pathname: '/des',
             query: {triple: true}
@@ -31,10 +30,10 @@ export default function Home() {
           name='Triple DES'
           keyBits='168 bits'
           securityLevel='Medium'
-          bruteForceTime='Trillion years'
+          encryptionType='Symmetric'
         />
 
-        <Card 
+        <SymmetricEncryptionCard 
           destination={{
             pathname: '/aes',
             query: {bits: '128'}
@@ -43,10 +42,10 @@ export default function Home() {
           name='Advanced Encryption Standard'
           keyBits='128 bits'
           securityLevel='High'
-          bruteForceTime='Trillion years'
+          encryptionType='Symmetric'
         />
 
-        <Card 
+        <SymmetricEncryptionCard 
           destination={{
             pathname: '/aes',
             query: {bits: '192'}
@@ -55,10 +54,10 @@ export default function Home() {
           name='Advanced Encryption Standard'
           keyBits='192 bits'
           securityLevel='High'
-          bruteForceTime='Trillion years'
+          encryptionType='Symmetric'
         />
 
-        <Card 
+        <SymmetricEncryptionCard 
           destination={{
             pathname: '/aes',
             query: {bits: '256'}
@@ -67,7 +66,7 @@ export default function Home() {
           name='Advanced Encryption Standard'
           keyBits='256 bits'
           securityLevel='Very High'
-          bruteForceTime='Trillion years'
+          encryptionType='Symmetric'
         />
       </div>
     </Layout>
