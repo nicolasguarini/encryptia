@@ -6,7 +6,7 @@ import KeyIcon from '../icons/KeyIcon'
 import ShieldIcon from '../icons/ShieldIcon'
 import BookIcon from '../icons/BookIcon'
 
-export default function SymmetricEncryptionCard(props) {
+export default function AsymmetricEncryptionCard(props) {
   return (
     <Link href={props.destination}> 
         <a>
@@ -43,7 +43,7 @@ export default function SymmetricEncryptionCard(props) {
                     <div className='mb-2'>
                         <BookIcon />
 
-                        <span className='align-middle'>Symmetric</span>
+                        <span className='align-middle'>Asymmetric</span>
                     </div>
                 </div>
             </div>
