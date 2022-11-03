@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "crypto-js": "^4.1.1",
+    "js-crypto-rsa": "^1.0.4",
     "next": "12.3.1",
     "react": "18.2.0",
     "react-dom": "18.2.0"

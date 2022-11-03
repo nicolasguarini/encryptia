@@ -11,3 +11,11 @@ export const modesMap = new Map([
 export const modes = [ ...modesMap.keys() ]
 
 export const AESVariants = ['128', '192', '256']
+
+export const bitsMap = new Map([
+    ['512', 512],
+    ['1024', 1024],
+    ['2048', 2048],
+    ['3072', 3072],
+    ['4096', 4096]
+])
