@@ -18,7 +18,7 @@ export default function RSA() {
         setGenerateKeysBtnContent(<Loader />)
 
         try{
-            const res = await fetch(`/api/generate-rsa-keys?bits=${bits}`)
+            const res = await fetch(`/api/rsa/generate-keys?bits=${bits}`)
             const data = await res.json()
             const status = res.status
 

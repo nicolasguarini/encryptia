@@ -1,5 +1,5 @@
 import crypto from 'crypto'
-import * as Constants from '../../utils/constants'
+import * as Constants from '../../../utils/constants'
 
 export default function handler(req, res) {
     if(req.method == 'GET'){
