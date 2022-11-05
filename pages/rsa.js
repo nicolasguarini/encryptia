@@ -2,6 +2,7 @@ import Head from 'next/head'
 import React, { useState } from 'react'
 import Layout from '../components/layout/Layout'
 import AlgorithmHeader from '../components/ui/AlgorithmHeader'
+import ErrorMessage from '../components/ui/ErrorMessage'
 import Loader from '../components/ui/Loader'
 import * as Constants from '../utils/constants'
 
@@ -10,6 +11,12 @@ export default function RSA() {
     const [privateKey, setPrivateKey] = useState('')
     const [publicKey, setPublicKey] = useState('')
     const [bits, setBits] = useState('2048')
+    const [plaintext, setPlaintext] = useState('')
+    const [ciphertext, setCiphertext] = useState('')
+    const [encryptMethod, setEncryptMethod] = useState('Public Key')
+    const [errorMessage, setErrorMessage] = useState('')
+    const [encryptBtnContent, setEncryptBtnContent] = useState('Encrypt')
+    const [decryptBtnContent, setDecryptBtnContent] = useState('Decrypt')
 
     const keys = [...Constants.bitsMap.keys()]
 
@@ -25,15 +32,88 @@ export default function RSA() {
             if(status == 200){
                 setPrivateKey(data.privateKey)
                 setPublicKey(data.publicKey)
+            }else{
+                setErrorMessage(<ErrorMessage>{data.message}</ErrorMessage>)
             }
-        }catch(e){}
+        }catch(error){
+            setErrorMessage(<ErrorMessage>{error.toString()}</ErrorMessage>)
+        }
 
         setGenerateKeysBtnContent('Generate Keys')
+    }
+
+    const handleEncryptBtnClick = async (event) => {
+        event.preventDefault()
+        setErrorMessage('')
+        setEncryptBtnContent(<Loader />)
+        
+        try{
+            const encodedPlaintext = encodeURI(plaintext.replace(/\+/g, '%2b'))
+            const requestString = `/api/rsa?plaintext=${encodedPlaintext}`
+
+            if(encryptMethod == 'Private Key'){
+                const encodedPrivateKey = encodeURI(privateKey.replace(/\+/g, '%2b'))
+                requestString += `&privateKey=${encodedPrivateKey}`
+            }else if(encryptMethod == 'Public Key'){
+                const encodedPublicKey = encodeURI(publicKey.replace(/\+/g, '%2b'))
+                requestString += `&publicKey=${encodedPublicKey}`
+            }
+
+            const res = await fetch(requestString)
+            const data = await res.json()
+            const status = res.status
+
+            if(status == 200){
+                setCiphertext(data.ciphertext)
+            }else{
+                setErrorMessage(<ErrorMessage>{data.message}</ErrorMessage>)
+            }
+        }catch(error){
+            setErrorMessage(<ErrorMessage>{error.toString()}</ErrorMessage>)
+        }
+
+        setEncryptBtnContent('Encrypt')
+    }
+
+    const handleDecryptBtnClick = async (event) => {
+        event.preventDefault()
+        setDecryptBtnContent(<Loader />)
+        setErrorMessage('')
+
+        try{
+            const encodedCiphertext = encodeURI(ciphertext.replace(/\+/g, '%2b'))
+            const requestString = `/api/rsa?ciphertext=${encodedCiphertext}`
+
+            if(encryptMethod == 'Private Key'){
+                const encodedPrivateKey = encodeURI(privateKey.replace(/\+/g, '%2b'))
+                requestString += `&privateKey=${encodedPrivateKey}`
+            }else if(encryptMethod == 'Public Key'){
+                const encodedPublicKey = encodeURI(publicKey.replace(/\+/g, '%2b'))
+                requestString += `&publicKey=${encodedPublicKey}`
+            }
+
+            const res = await fetch(requestString)
+            const data = await res.json()
+            const status = res.status
+
+            if(status == 200){
+                setPlaintext(data.plaintext)
+            }else{
+                setErrorMessage(<ErrorMessage>{data.message}</ErrorMessage>)
+            }
+        }catch(error){
+            setErrorMessage(<ErrorMessage>{error.toString()}</ErrorMessage>)
+        }
+        
+        setDecryptBtnContent('Decrypt')
     }
 
     const handleBitsChange = (event) => setBits(event.target.value)
     const handlePublicKeyChange = (event) => setPublicKey(event.target.value)
     const handlePrivateKeyChange = (event) => setPrivateKey(event.target.value)
+    const handlePlaintextChange = (event) => setPlaintext(event.target.value)
+    const handleCiphertextChange = (event) => setCiphertext(event.target.value)
+    const handleEncryptMethodChange = (event) => setEncryptMethod(event.target.value)
 
     return (
         <Layout>
@@ -88,27 +168,34 @@ export default function RSA() {
 
                 <div className='mt-7'>
                     <label className='block mb-3 text-slate-300'>Plaintext</label>
-                    <textarea className='bg-transparent border border-solid rounded-lg border-slate-500 w-[100%] p-2 h-28 max-h-52 mb-5'>
+                    <textarea className='bg-transparent border border-solid rounded-lg border-slate-500 w-[100%] p-2 h-28 max-h-52 mb-5'
+                        value={plaintext}
+                        onChange={handlePlaintextChange}>
 
                     </textarea>
 
                     <div className='text-center mb-5 grid grid-cols-1 md:grid-cols-3 w-2/3 lg:w-1/2 m-auto gap-y-5'>
-                        <select className='inline text-slate-200 px-1 py-2 border border-solid border-slate-500 mx-3 rounded-lg bg-slate-900'>
+                        <select className='inline text-slate-200 px-1 py-2 border border-solid border-slate-500 mx-3 rounded-lg bg-slate-900'
+                            value={encryptMethod} onChange={handleEncryptMethodChange}>
                             <option>Public Key</option>
                             <option>Private Key</option>
                         </select>
 
-                        <button className='inline border border-solid border-gray-600 rounded-lg bg-gray-800 hover:text-white hover:bg-gray-700 px-10 py-2 font-medium m-auto'>
-                            Encrytpt
+                        <button className='inline border border-solid border-gray-600 rounded-lg bg-gray-800 hover:text-white hover:bg-gray-700 px-10 py-2 font-medium m-auto'
+                            onClick={handleEncryptBtnClick}>
+                            {encryptBtnContent}
                         </button>
 
-                        <button className='inline border border-solid border-gray-600 rounded-lg bg-gray-800 hover:text-white hover:bg-gray-700 px-10 py-2 font-medium m-auto'>
-                            Decrypt
+                        <button className='inline border border-solid border-gray-600 rounded-lg bg-gray-800 hover:text-white hover:bg-gray-700 px-10 py-2 font-medium m-auto'
+                            onClick={handleDecryptBtnClick}>
+                            {decryptBtnContent}
                         </button>
                     </div>
-
+                    {errorMessage}
                     <label className='block mb-3 text-slate-300'>Ciphertext</label>
-                    <textarea className='bg-transparent border border-solid rounded-lg border-slate-500 w-[100%] p-2 h-28 max-h-52 mb-5'>
+                    <textarea className='bg-transparent border border-solid rounded-lg border-slate-500 w-[100%] p-2 h-28 max-h-52 mb-5'
+                        value={ciphertext}
+                        onChange={handleCiphertextChange}>
                     </textarea>
                 </div>
             </div>
