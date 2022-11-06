@@ -155,7 +155,7 @@ GET https://encryptia.vercel.app/api/aes?ciphertext=ySrGrO2LepqM0LnwLN+oFQ==&key
 ```
 Note: the ciphertext will be encoded in Base64 format.
 
-### Response 
+### Asymmetric Encryption Response 
 The API returns a JSON object of this type:
 ```
 {
@@ -164,6 +164,60 @@ The API returns a JSON object of this type:
     key,
     iv,
     mode
+}
+```
+
+### RSA
+Key generation:
+```
+GET https://encryptia.vercel.app/api/rsa/generate-keys?bits=[bits]
+```
+The `bits` parameter is optional (default: 2048), it can accept values between 
+
+- 512
+- 1024
+- 2048
+- 3072
+- 4096
+
+The response object has this form:
+```
+{
+    privateKey,
+    publicKey
+}
+```
+
+
+Public Encryption:
+```
+GET [...]/api/rsa?plaintext&publicKey
+```
+Private Encryption:
+```
+GET [...]/api/rsa?plaintext&privateKey
+```
+Public Decryption:
+```
+GET [...]/api/rsa?ciphertext&publicKey
+```
+Private Decryption:
+```
+GET [...]/api/rsa?ciphertext&privateKey
+```
+The typical flow for encrypting messages is Public Encryption -> Private Decryption.
+
+**Note**: When passing parameters to the endpoint, it may sometimes be necessary to manually convert the `+` symbols into their `%2b` code, as the js standard library functions `encodeURI()` and `decodeURI()` treat `+` symbols as whitespaces. The API is programmed to recognize the `%2b` code as `+` symbol.
+
+**Note**: In order to debug the API, this will include the key in the response message. In case of malfunctions, first check that the key sent and the one received from the API matches.
+
+### Asymmetric Encryption Response
+The API returns a JSON object of this type:
+```
+{
+    plaintext,
+    ciphertext,
+    publicKey | privateKey
 }
 ```
 
