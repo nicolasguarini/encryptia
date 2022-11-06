@@ -3,9 +3,9 @@ const rsa = require('node-rsa')
 
 export default function handler(req, res) {
     if(req.method == 'GET'){
-        const bits = Constants.bitsMap.get(req.query.bits) ?? 2048 //TODO: implelent dynamic key size
+        const bits = Constants.bitsMap.get(req.query.bits) ?? 2048
 
-        const key = new rsa().generateKeyPair()
+        const key = new rsa().generateKeyPair(bits)
         const publicKey = key.exportKey('public')
         const privateKey = key.exportKey('private')
 
