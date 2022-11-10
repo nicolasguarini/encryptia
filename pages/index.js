@@ -79,14 +79,6 @@ export default function Home() {
           keyBits='≥512 bit'
           securityLevel='Very High'
         />
-
-        <AsymmetricEncryptionCard 
-          destination='/dh'
-          shortName='DH'
-          name='Diffie-Hellman'
-          keyBits='≥512 bit'
-          securityLevel='Very High'
-        />
       </CardsContainer>
     </Layout>
   )
