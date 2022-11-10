@@ -25,6 +25,15 @@
     <img src="https://img.shields.io/github/package-json/v/nicolasguarini/encryptia" alt="Version">
 </p>
 
+## Table of contents
+[About the project](#about-the-project) \
+[Getting started](#getting-started) \
+[Encryption APIs Usage](#encryption-apis-usage) \
+[Hashing APIs Usage](#hashing-apis-usage) \
+[Contributing](#contributing) \
+[Licence](#licence) \
+[Contributors](#contributors)
+
 ## About the project
 encryptia is a platform that allows you to encrypt your texts using various algorithms. \
 This is a project designed both for cryptography enthusiasts who want to tinker with the various algorithm configurations via the web application, and for developers who need to encrypt data via the API.
@@ -72,6 +81,8 @@ encryptia provides several of the best known algorithms, and is in continuous de
 - DES
 - Triple DES
 - AES
+- RSA
+- MD5
 
 ## Getting Started
 This project is built with Next.js, so you have to satisfy some system requirements:
@@ -104,7 +115,7 @@ To learn more about Next.js, take a look at the following resources:
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
 
-## API Usage
+## Encryption APIs Usage
 The API endpoints can be accessed on `https://encryptia.vercel.app/api/[algorithmName]?[params]`. \
 Every algorithm endpoint can take several params, here is a list:
 
@@ -218,6 +229,21 @@ The API returns a JSON object of this type:
     plaintext,
     ciphertext,
     publicKey | privateKey
+}
+```
+
+## Hashing APIs Usage
+### MD5
+```
+GET [...]/api/md5?plaintext=[plaintext]
+```
+
+### Response
+The API returns a JSON object of this type:
+```
+{
+    plaintext,
+    hash
 }
 ```
 
