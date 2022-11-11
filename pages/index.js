@@ -5,6 +5,7 @@ import Layout from '../components/layout/Layout';
 import Divider from '../components/ui/Divider';
 import CardsContainer from '../components/ui/CardsContainer';
 import AsymmetricEncryptionCard from '../components/ui/AsymmetricEncryptionCard';
+import HashCard from '../components/ui/HashCard';
 
 export default function Home() {
   return (
@@ -67,18 +68,27 @@ export default function Home() {
             keyBits='256 bits'
             securityLevel='Very High'
           />
+
+          <AsymmetricEncryptionCard 
+            destination='/rsa'
+            shortName='RSA'
+            name='Rivest, Shamir, Adleman'
+            keyBits='≥512 bit'
+            securityLevel='Very High'
+          />
       </CardsContainer>
       
       <Divider />
 
       <CardsContainer>
-        <AsymmetricEncryptionCard 
-          destination='/rsa'
-          shortName='RSA'
-          name='Rivest, Shamir, Adleman'
-          keyBits='≥512 bit'
-          securityLevel='Very High'
-        />
+            <HashCard 
+              destination='/md5'
+              shortName='MD5'
+              name='Message-Digest algorithm'
+              securityLevel='Medium'
+              blockSize='128 bit'
+              bruteforceTime='8 Hours'
+            />
       </CardsContainer>
     </Layout>
   )
