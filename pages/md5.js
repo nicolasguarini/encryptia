@@ -5,7 +5,7 @@ import AlgorithmHeader from "../components/ui/AlgorithmHeader";
 import ErrorMessage from "../components/ui/ErrorMessage";
 import Loader from "../components/ui/Loader";
 
-export default function md5() {
+export default function MD5() {
     const [plaintext, setPlaintext] = useState('')
     const [hash, setHash] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
