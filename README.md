@@ -238,6 +238,21 @@ The API returns a JSON object of this type:
 GET [...]/api/md5?plaintext=[plaintext]
 ```
 
+### SHA
+```
+GET [...]/api/sha?v=[v]&plaintext=[plaintext]
+```
+The `v` parameter is optional (default: 2), it specifies the SHA version to use, and it can assume values between:
+
+- `1`
+- `2` or `256` (default)
+- `3`
+- `224`
+- `384`
+- `512`
+
+For more information about SHA versions: [Secure Hash Algorithms](https://en.wikipedia.org/wiki/Secure_Hash_Algorithms)
+
 ### Response
 The API returns a JSON object of this type:
 ```
