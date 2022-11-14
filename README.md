@@ -83,6 +83,7 @@ encryptia provides several of the best known algorithms, and is in continuous de
 - AES
 - RSA
 - MD5
+- SHA (1, 224, 256, 384, 512)
 
 ## Getting Started
 This project is built with Next.js, so you have to satisfy some system requirements:
