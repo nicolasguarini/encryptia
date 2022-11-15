@@ -12,6 +12,8 @@ export const modes = [ ...modesMap.keys() ]
 
 export const AESVariants = ['128', '192', '256']
 
+export const SHAVariants = ['SHA-1', 'SHA-2', 'SHA-3', 'SHA-384', 'SHA-512']
+
 export const bitsMap = new Map([
     ['512', 512],
     ['1024', 1024],

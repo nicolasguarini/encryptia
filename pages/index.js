@@ -89,6 +89,30 @@ export default function Home() {
               blockSize='128 bit'
               bruteforceTime='8 Hours'
             />
+
+            <HashCard 
+              destination={{
+                pathname: '/sha',
+                query: {v: 'SHA-1'}
+              }}
+              shortName='SHA-1'
+              name='Secure Hash Algorithm'
+              securityLevel='Low'
+              blockSize='160 bit'
+              bruteforceTime='Infinite'
+            />
+
+            <HashCard 
+              destination={{
+                pathname: '/sha',
+                query: {v: 'SHA-2'}
+              }}
+              shortName='SHA-2'
+              name='Secure Hash Algorithm'
+              securityLevel='High'
+              blockSize='256 bit'
+              bruteforceTime='Infinite'
+            />
       </CardsContainer>
     </Layout>
   )
