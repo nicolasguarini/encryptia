@@ -1,8 +1,8 @@
-//api/aes
+import { NextApiRequest, NextApiResponse } from "next"
+import CryptoJS from 'crypto-js'
 
-export default function handler(req, res) {
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
     if(req.method == 'GET'){
-        const CryptoJS = require('crypto-js')
         const {plaintext, key, iv, ciphertext} = req.query
         
         const ivHex = CryptoJS.enc.Utf8.parse(iv ?? '0000')
@@ -47,7 +47,7 @@ export default function handler(req, res) {
             })
         }
     }else if(req.method == 'POST'){
-        res.send(405).json({
+        res.status(405).json({
             message: "Method POST Not Allowed"
         })
     }

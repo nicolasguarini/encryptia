@@ -1,11 +1,12 @@
 import CryptoJS from "crypto-js"
+import { NextApiRequest, NextApiResponse } from "next"
 
-export default function handler(req, res) {
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
     if(req.method == 'GET'){
         const {plaintext, v} = req.query
 
         try{
-            let hash = ''
+            let hash: string = ''
 
             switch(v){
                 case '1':
@@ -38,7 +39,7 @@ export default function handler(req, res) {
             })
         }  
     }else if(req.method == 'POST'){
-        res.send(405).json({
+        res.status(405).json({
             message: "Method POST Not Allowed"
         })
     }

@@ -1,15 +1,15 @@
 //api/des
+import { NextApiRequest, NextApiResponse } from 'next'
 import * as Constants from '../../utils/constants'
+import CryptoJS from 'crypto-js'
 
-export default function handler(req, res) {
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
     if(req.method == 'GET'){
-        const CryptoJS = require('crypto-js')
-        
         const query = req.query
         const {plaintext, key, mode, triple, ciphertext, iv} = query
         const cryptoObj = triple === 'true' ? CryptoJS.TripleDES : CryptoJS.DES
         
-        if(mode && !Constants.modesMap.has(mode)){
+        if(mode && !Constants.modesMap.has(mode.toString())){
             res.status(400).send({
                 message: `Specified mode '${mode}' not supported by DES`
             })
@@ -17,7 +17,7 @@ export default function handler(req, res) {
             const keyHex = CryptoJS.enc.Utf8.parse(key)
             const ivHex = iv ? CryptoJS.enc.Hex.parse(CryptoJS.enc.Utf8.parse(iv).toString(CryptoJS.enc.Hex)) 
                             : CryptoJS.enc.Hex.parse('0000')
-            const modeObj = Constants.modesMap.get(mode ?? 'ECB')
+            const modeObj = Constants.modesMap.get(mode.toString() ?? 'ECB')
             
             try{
                 if(!ciphertext){ //we have to encrypt
@@ -58,7 +58,7 @@ export default function handler(req, res) {
             }
         }
     }else if(req.method == 'POST'){
-        res.send(405).json({
+        res.status(405).send({
             message: "Method POST Not Allowed"
         })
     }

@@ -1,9 +1,17 @@
+import { NextApiRequest, NextApiResponse } from "next"
 import rsa from "node-rsa"
 
-export default function handler(req, res) {
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
     if(req.method == 'GET'){
         try{
             let {plaintext, ciphertext, publicKey, privateKey} = req.query
+            let publicKeyObj: rsa
+            let privateKeyObj: rsa
+
+            plaintext = plaintext ? plaintext.toString() : null
+            ciphertext = ciphertext ? ciphertext.toString() : null
+            publicKey = publicKey ? publicKey.toString() : null
+            privateKey = privateKey ? privateKey.toString() : null
 
             if(plaintext) plaintext = decodeURI(plaintext).replace(/%2b/g, '+')
             if(ciphertext) ciphertext = decodeURI(ciphertext).replace(/%2b/g, '+')
@@ -17,39 +25,39 @@ export default function handler(req, res) {
                     message: 'You must specify either private or public key'
                 })
             }else if(publicKey){ 
-                publicKey = new rsa().importKey(
+                publicKeyObj = new rsa().importKey(
                     decodeURI(publicKey).replace(/%2b/g, '+')
                 )
 
                 if(plaintext){ //We have to public encrypt
                     res.status(200).json({
                         plaintext: plaintext,
-                        ciphertext: publicKey.encrypt(plaintext, 'base64'),
-                        publicKey: publicKey.exportKey('public')
+                        ciphertext: publicKeyObj.encrypt(plaintext, 'base64'),
+                        publicKey: publicKeyObj.exportKey('public')
                     })
                 }else if(ciphertext){ //We have to public decrypt
                     res.status(200).json({
-                        plaintext: publicKey.decryptPublic(ciphertext, 'utf8'),
+                        plaintext: publicKeyObj.decryptPublic(ciphertext, 'utf8'),
                         ciphertext: ciphertext,
-                        publicKey: publicKey.exportKey('public')
+                        publicKey: publicKeyObj.exportKey('public')
                     })
                 }
             }else if(privateKey){
-                privateKey = new rsa().importKey(
+                privateKeyObj = new rsa().importKey(
                     decodeURI(privateKey).replace(/%2b/g, '+')
                 )
 
                 if(plaintext){ //We have to private encrypt
                     res.status(200).json({
                         plaintext: plaintext,
-                        ciphertext: privateKey.encryptPrivate(plaintext, 'base64'),
-                        privateKey: privateKey.exportKey('private')
+                        ciphertext: privateKeyObj.encryptPrivate(plaintext, 'base64'),
+                        privateKey: privateKeyObj.exportKey('private')
                     })
                 }else if(ciphertext){ //We have to private decrypt
                     res.status(200).json({
-                        plaintext: privateKey.decrypt(ciphertext, 'utf8'),
+                        plaintext: privateKeyObj.decrypt(ciphertext, 'utf8'),
                         ciphertext: ciphertext,
-                        privateKey: privateKey.exportKey('private')
+                        privateKey: privateKeyObj.exportKey('private')
                     })
                 }
             }else{
@@ -63,7 +71,7 @@ export default function handler(req, res) {
             })
         }
     }else if(req.method == 'POST'){
-        res.send(405).json({
+        res.status(405).json({
             message: "Method POST Not Allowed"
         })
     }
