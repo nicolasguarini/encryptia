@@ -6,23 +6,31 @@ import KeyIcon from '../icons/KeyIcon'
 import ShieldIcon from '../icons/ShieldIcon'
 import BookIcon from '../icons/BookIcon'
 
-export default function AsymmetricEncryptionCard(props) {
+type Props = {
+    destination: string,
+    shortName: string,
+    name: string,
+    keyBits: string,
+    securityLevel: string
+}
+
+export default function AsymmetricEncryptionCard({ destination, shortName, name, keyBits, securityLevel }: Props) {
   return (
-    <Link href={props.destination}> 
+    <Link href={destination}> 
         <a>
             <div className='cursor-pointer border-solid border-2 rounded-2xl border-slate-600 hover:border-slate-400 mb-10 px-5 py-4 text-slate-500 hover:text-slate-50 ease-linear duration-200'>
                 <div className='relative border-solid border-b-[1px] pb-3 border-slate-700 '>
                     <LockIcon />
 
                     <div className='inline font-bold text-xl pl-3 border-solid border-l-[1px] border-slate-700 align-middle'>
-                        {props.shortName}
+                        {shortName}
                     </div>
 
                     <RightArrowIcon />
                 </div>
 
                 <div className='my-3 font-semibold'>
-                    {props.name}
+                    {name}
                 </div>
 
                 <div className=' font-semibold'>
@@ -30,14 +38,14 @@ export default function AsymmetricEncryptionCard(props) {
                         <KeyIcon />
 
                         <span className='align-middle'>
-                            {props.keyBits}
+                            {keyBits}
                         </span>
                     </div>
                     <div className='mb-2'>
                         <ShieldIcon />
 
                         <span className='align-middle'>
-                            {props.securityLevel}
+                            {securityLevel}
                         </span>
                     </div>
                     <div className='mb-2'>

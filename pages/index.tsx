@@ -44,7 +44,6 @@ export default function Home() {
             name='Advanced Encryption Standard'
             keyBits='128 bits'
             securityLevel='High'
-            encryptionType='Symmetric'
           />
 
           <SymmetricEncryptionCard 
