@@ -7,27 +7,27 @@ import Loader from '../components/ui/Loader'
 import * as Constants from '../utils/constants'
 
 export default function RSA() {
-    const [generateKeysBtnContent, setGenerateKeysBtnContent] = useState('Generate Keys')
-    const [privateKey, setPrivateKey] = useState('')
-    const [publicKey, setPublicKey] = useState('')
-    const [bits, setBits] = useState('2048')
-    const [plaintext, setPlaintext] = useState('')
-    const [ciphertext, setCiphertext] = useState('')
-    const [encryptMethod, setEncryptMethod] = useState('Public Key')
-    const [errorMessage, setErrorMessage] = useState('')
-    const [encryptBtnContent, setEncryptBtnContent] = useState('Encrypt')
-    const [decryptBtnContent, setDecryptBtnContent] = useState('Decrypt')
+    const [generateKeysBtnContent, setGenerateKeysBtnContent] = useState<string | JSX.Element>('Generate Keys')
+    const [privateKey, setPrivateKey] = useState<string>('')
+    const [publicKey, setPublicKey] = useState<string>('')
+    const [bits, setBits] = useState<string | number>('2048')
+    const [plaintext, setPlaintext] = useState<string>('')
+    const [ciphertext, setCiphertext] = useState<string>('')
+    const [encryptMethod, setEncryptMethod] = useState<string>('Public Key')
+    const [errorMessage, setErrorMessage] = useState<string | JSX.Element>('')
+    const [encryptBtnContent, setEncryptBtnContent] = useState<string | JSX.Element>('Encrypt')
+    const [decryptBtnContent, setDecryptBtnContent] = useState<string | JSX.Element>('Decrypt')
 
-    const keys = [...Constants.bitsMap.keys()]
+    const keys: string[] = Array.from(Constants.bitsMap.keys())
 
-    const handleGenerateKeysBtnClick = async (event) => {
+    const handleGenerateKeysBtnClick = async (event: { preventDefault: () => void }) => {
         event.preventDefault()
         setGenerateKeysBtnContent(<Loader />)
 
         try{
-            const res = await fetch(`/api/rsa/generate-keys?bits=${bits}`)
+            const res: Response = await fetch(`/api/rsa/generate-keys?bits=${bits}`)
             const data = await res.json()
-            const status = res.status
+            const status: number = res.status
 
             if(status == 200){
                 setPrivateKey(data.privateKey)
@@ -42,14 +42,14 @@ export default function RSA() {
         setGenerateKeysBtnContent('Generate Keys')
     }
 
-    const handleEncryptBtnClick = async (event) => {
+    const handleEncryptBtnClick = async (event: { preventDefault: () => void }) => {
         event.preventDefault()
         setErrorMessage('')
         setEncryptBtnContent(<Loader />)
         
         try{
             const encodedPlaintext = encodeURI(plaintext.replace(/\+/g, '%2b'))
-            const requestString = `/api/rsa?plaintext=${encodedPlaintext}`
+            let requestString = `/api/rsa?plaintext=${encodedPlaintext}`
 
             if(encryptMethod == 'Private Key'){
                 const encodedPrivateKey = encodeURI(privateKey.replace(/\+/g, '%2b'))
@@ -59,9 +59,9 @@ export default function RSA() {
                 requestString += `&publicKey=${encodedPublicKey}`
             }
 
-            const res = await fetch(requestString)
+            const res: Response = await fetch(requestString)
             const data = await res.json()
-            const status = res.status
+            const status: number = res.status
 
             if(status == 200){
                 setCiphertext(data.ciphertext)
@@ -75,14 +75,14 @@ export default function RSA() {
         setEncryptBtnContent('Encrypt')
     }
 
-    const handleDecryptBtnClick = async (event) => {
+    const handleDecryptBtnClick = async (event: { preventDefault: () => void }) => {
         event.preventDefault()
         setDecryptBtnContent(<Loader />)
         setErrorMessage('')
 
         try{
             const encodedCiphertext = encodeURI(ciphertext.replace(/\+/g, '%2b'))
-            const requestString = `/api/rsa?ciphertext=${encodedCiphertext}`
+            let requestString = `/api/rsa?ciphertext=${encodedCiphertext}`
 
             if(encryptMethod == 'Private Key'){
                 const encodedPrivateKey = encodeURI(privateKey.replace(/\+/g, '%2b'))
@@ -108,12 +108,12 @@ export default function RSA() {
         setDecryptBtnContent('Decrypt')
     }
 
-    const handleBitsChange = (event) => setBits(event.target.value)
-    const handlePublicKeyChange = (event) => setPublicKey(event.target.value)
-    const handlePrivateKeyChange = (event) => setPrivateKey(event.target.value)
-    const handlePlaintextChange = (event) => setPlaintext(event.target.value)
-    const handleCiphertextChange = (event) => setCiphertext(event.target.value)
-    const handleEncryptMethodChange = (event) => setEncryptMethod(event.target.value)
+    const handleBitsChange = (event: { target: { value: React.SetStateAction<string | number> } }) => setBits(event.target.value)
+    const handlePublicKeyChange = (event: { target: { value: React.SetStateAction<string> } }) => setPublicKey(event.target.value)
+    const handlePrivateKeyChange = (event: { target: { value: React.SetStateAction<string> } }) => setPrivateKey(event.target.value)
+    const handlePlaintextChange = (event: { target: { value: React.SetStateAction<string> } }) => setPlaintext(event.target.value)
+    const handleCiphertextChange = (event: { target: { value: React.SetStateAction<string> } }) => setCiphertext(event.target.value)
+    const handleEncryptMethodChange = (event: { target: { value: React.SetStateAction<string> } }) => setEncryptMethod(event.target.value)
 
     return (
         <Layout>

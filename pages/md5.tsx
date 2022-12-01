@@ -1,17 +1,17 @@
 import Head from "next/head";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import Layout from "../components/layout/Layout";
 import AlgorithmHeader from "../components/ui/AlgorithmHeader";
 import ErrorMessage from "../components/ui/ErrorMessage";
 import Loader from "../components/ui/Loader";
 
 export default function MD5() {
-    const [plaintext, setPlaintext] = useState('')
-    const [hash, setHash] = useState('')
-    const [errorMessage, setErrorMessage] = useState('')
-    const [hashBtnContent, setHashBtnContent] = useState('Hash')
+    const [plaintext, setPlaintext] = useState<string>('')
+    const [hash, setHash] = useState<string>('')
+    const [errorMessage, setErrorMessage] = useState<string | JSX.Element>('')
+    const [hashBtnContent, setHashBtnContent] = useState<string | JSX.Element>('Hash')
 
-    const handleHashBtnClick = async (event) => {
+    const handleHashBtnClick = async (event: { preventDefault: () => void; }) => {
         event.preventDefault()
         setErrorMessage('')
         setHashBtnContent(<Loader />)
@@ -41,8 +41,8 @@ export default function MD5() {
         setHashBtnContent('Hash')
     }
 
-    const handlePlaintextChange = (event) => setPlaintext(event.target.value)
-    const handleHashChange = (event) => setHash(event.target.value)
+    const handlePlaintextChange = (event: { target: { value: SetStateAction<string>; }; }) => setPlaintext(event.target.value)
+    const handleHashChange = (event: { target: { value: SetStateAction<string>; }; }) => setHash(event.target.value)
 
     return (
         <Layout>

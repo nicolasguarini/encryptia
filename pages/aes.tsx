@@ -1,40 +1,46 @@
 import Head from 'next/head'
-import { useRouter } from 'next/router'
+import { NextRouter, useRouter } from 'next/router'
 import React, { useState } from 'react'
+import JSXStyle from 'styled-jsx/style'
 import Layout from '../components/layout/Layout'
 import AlgorithmHeader from '../components/ui/AlgorithmHeader'
 import ErrorMessage from '../components/ui/ErrorMessage'
 import Loader from '../components/ui/Loader'
 import * as Constants from '../utils/constants'
 
+type Event = {
+    target: {
+        value: React.SetStateAction<string>
+    }
+}
+
 export default function AES() {
-    const router = useRouter()
-    const bits = Constants.AESVariants.includes(router.query.bits) 
-        ? router.query.bits 
+    const router: NextRouter = useRouter()
+    const bits: string = Constants.AESVariants.includes(router.query.bits.toString()) 
+        ? router.query.bits.toString()
         : Constants.AESVariants[0]
 
-    const [ciphertext, setCiphertext] = useState('')
-    const [plaintext, setPlaintext] = useState('')
-    const [key, setKey] = useState('')
-    const [variant, setVariant] = useState(bits)
-    const [encryptBtnContent, setEncryptBtnContent] = useState('Encrypt')
-    const [decryptBtnContent, setDecryptBtnContent] = useState('Decrypt')
-    const [errorMessage, setErrorMessage] = useState('')
+    const [ciphertext, setCiphertext] = useState<string>('')
+    const [plaintext, setPlaintext] = useState<string>('')
+    const [key, setKey] = useState<string>('')
+    const [variant, setVariant] = useState<string>(bits)
+    const [encryptBtnContent, setEncryptBtnContent] = useState<string | JSX.Element>('Encrypt')
+    const [decryptBtnContent, setDecryptBtnContent] = useState<string | JSX.Element>('Decrypt')
+    const [errorMessage, setErrorMessage] = useState<string | JSX.Element>('')
 
-    const handleCiphertextChange = (event) => setCiphertext(event.target.value)
-    const handlePlaintextChange = (event) => setPlaintext(event.target.value)
-    const handleKeyChange = (event) => setKey(event.target.value)
-    const handleVariantChange = (event) => setVariant(event.target.value)
+    const handleCiphertextChange = (event: Event) => setCiphertext(event.target.value)
+    const handlePlaintextChange = (event: Event) => setPlaintext(event.target.value)
+    const handleKeyChange = (event: Event) => setKey(event.target.value)
+    const handleVariantChange = (event: Event) => setVariant(event.target.value)
     
-    const handleEncryptBtnClick = async (event) => {
-        event.preventDefault()
+    const handleEncryptBtnClick = async (event: { preventDefault: () => void }) => {
         setEncryptBtnContent(<Loader />)
         setErrorMessage('')
 
         try{
-            const res = await fetch(`/api/aes?plaintext=${plaintext}&key=${key}`)
+            const res: Response = await fetch(`/api/aes?plaintext=${plaintext}&key=${key}`)
             const data = await res.json()
-            const status = res.status
+            const status: number = res.status
 
             if(status == 200){
                 setCiphertext(data.ciphertext)
@@ -50,15 +56,15 @@ export default function AES() {
         setEncryptBtnContent('Encrypt')
     }
 
-    const handleDecryptBtnClick = async (event) => {
+    const handleDecryptBtnClick = async (event: { preventDefault: () => void }) => {
         event.preventDefault()
         setDecryptBtnContent(<Loader />)
         setErrorMessage('')
 
         try{
-            const res = await fetch(`/api/aes?ciphertext=${ciphertext}&key=${key}`)
+            const res: Response = await fetch(`/api/aes?ciphertext=${ciphertext}&key=${key}`)
             const data = await res.json()
-            const status = res.status
+            const status: number = res.status
 
             if(status == 200){
                 setPlaintext(data.plaintext)

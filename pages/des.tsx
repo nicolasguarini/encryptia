@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useRouter } from 'next/router'
+import { NextRouter, useRouter } from 'next/router'
 import React, { useState } from 'react'
 import Layout from '../components/layout/Layout'
 import AlgorithmHeader from '../components/ui/AlgorithmHeader'
@@ -8,31 +8,31 @@ import Loader from '../components/ui/Loader'
 import * as Constants from '../utils/constants'
 
 export default function DES() {
-  const router = useRouter()
-  const triple = router.query.triple === 'true'
+  const router: NextRouter = useRouter()
+  const triple: boolean = router.query.triple === 'true'
 
-  const [ciphertext, setCiphertext] = useState('')
-  const [plaintext, setPlaintext] = useState('')
-  const [key, setKey] = useState('')
-  const [mode, setMode] = useState('ECB')
-  const [IV, setIV] = useState('')
-  const [encryptBtnContent, setEncryptBtnContent] = useState('Encrypt')
-  const [decryptBtnContent, setDecryptBtnContent] = useState('Decrypt')
-  const [errorMessage, setErrorMessage] = useState('')
+  const [ciphertext, setCiphertext] = useState<string>('')
+  const [plaintext, setPlaintext] = useState<string>('')
+  const [key, setKey] = useState<string>('')
+  const [mode, setMode] = useState<string>('ECB')
+  const [IV, setIV] = useState<string>('')
+  const [encryptBtnContent, setEncryptBtnContent] = useState<string | JSX.Element>('Encrypt')
+  const [decryptBtnContent, setDecryptBtnContent] = useState<string | JSX.Element>('Decrypt')
+  const [errorMessage, setErrorMessage] = useState<string | JSX.Element>('')
 
-  const handleEncryptBtnClick = async (event) => {
+  const handleEncryptBtnClick = async (event: { preventDefault: () => void }) => {
     event.preventDefault()
     setEncryptBtnContent(<Loader />)
     setErrorMessage('')
 
-    let requestString = `plaintext=${plaintext}&key=${key}&mode=${mode}`
+    let requestString: string = `plaintext=${plaintext}&key=${key}&mode=${mode}`
     if(mode != 'ECB') requestString += `&iv=${IV}`
     if(triple) requestString += '&triple=true'
 
     try{
-      const res = await fetch(`/api/des?${requestString}`)
+      const res: Response = await fetch(`/api/des?${requestString}`)
       const data = await res.json()
-      const status = res.status
+      const status: number = res.status
       
       if(status == 200){
         setCiphertext(data.ciphertext)
@@ -46,20 +46,20 @@ export default function DES() {
     setEncryptBtnContent('Encrypt')
   }
 
-  const handleDecryptBtnClick = async (event) => {
+  const handleDecryptBtnClick = async (event: { preventDefault: () => void }) => {
     event.preventDefault()
     setPlaintext('')
     setDecryptBtnContent(<Loader />)
     setErrorMessage('')
 
-    let requestString = `key=${key}&mode=${mode}&ciphertext=${ciphertext}`
+    let requestString: string = `key=${key}&mode=${mode}&ciphertext=${ciphertext}`
     if(mode != 'ECB') requestString += `&iv=${IV}`
     if(triple) requestString += '&triple=true'
 
     try{
-      const res = await fetch(`/api/des?${requestString}`)
+      const res: Response = await fetch(`/api/des?${requestString}`)
       const data = await res.json()
-      const status = res.status
+      const status: number = res.status
 
       if(status == 200){
         setPlaintext(data.plaintext)
@@ -73,11 +73,11 @@ export default function DES() {
     setDecryptBtnContent('Decrypt')
   }
 
-  const handleCiphertextChange = (event) => setCiphertext(event.target.value)
-  const handlePlaintextChange = (event) => setPlaintext(event.target.value)
-  const handleKeyChange = (event) => setKey(event.target.value)
-  const handleModeChange = (event) => setMode(event.target.value)
-  const handleIVChange = (event) => setIV(event.target.value)
+  const handleCiphertextChange = (event: { target: { value: React.SetStateAction<string> } }) => setCiphertext(event.target.value)
+  const handlePlaintextChange = (event: { target: { value: React.SetStateAction<string> } }) => setPlaintext(event.target.value)
+  const handleKeyChange = (event: { target: { value: React.SetStateAction<string> } }) => setKey(event.target.value)
+  const handleModeChange = (event: { target: { value: React.SetStateAction<string> } }) => setMode(event.target.value)
+  const handleIVChange = (event: { target: { value: React.SetStateAction<string> } }) => setIV(event.target.value)
 
   return (
     <Layout>
@@ -121,7 +121,7 @@ export default function DES() {
                 type="text" 
                 value={key}
                 onChange={handleKeyChange}
-                maxLength={triple ? '' : '8'} 
+                maxLength={triple ? null : 8} 
                 className='bg-slate-900 border rounded-lg p-2 w-[100%] border-slate-500'
               />
             </div>
@@ -130,7 +130,7 @@ export default function DES() {
               <label className='block mb-3 text-slate-300'>Mode</label>
 
               <select value={mode} onChange={handleModeChange} className='text-slate-200 w-[100%] px-1 py-2 border border-solid border-slate-500 rounded-lg bg-slate-900'>
-                {Constants.modes.map((mode) => <option key={mode} value={mode}>{mode}</option>)}
+                {Constants.modes.map((mode) => <option key={mode.toString()} value={mode.toString()}>{mode}</option>)}
               </select>
             </div>
           </div>
