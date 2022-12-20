@@ -8,7 +8,7 @@ export const modesMap: Map<string, any> = new Map([
     ['CTR', CryptoJS.mode.CTR]
 ])
 
-export const modes: any[] = Array.of(modesMap.keys())
+export const modes: any[] = Array.from(modesMap.keys())
 
 export const AESVariants: string[] = ['128', '192', '256']
 

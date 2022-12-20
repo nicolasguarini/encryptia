@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { NextRouter, useRouter } from 'next/router'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '../components/layout/Layout'
 import AlgorithmHeader from '../components/ui/AlgorithmHeader'
 import ErrorMessage from '../components/ui/ErrorMessage'
@@ -9,7 +9,14 @@ import * as Constants from '../utils/constants'
 
 export default function DES() {
   const router: NextRouter = useRouter()
-  const triple: boolean = router.query.triple === 'true'
+  const [triple, setTriple] = useState<boolean>(false)
+
+  useEffect(() => {
+    if(!router.query.triple) return 
+
+    setTriple(router.query.triple == 'true')
+  }, [router.query.triple])
+  
 
   const [ciphertext, setCiphertext] = useState<string>('')
   const [plaintext, setPlaintext] = useState<string>('')
@@ -130,7 +137,16 @@ export default function DES() {
               <label className='block mb-3 text-slate-300'>Mode</label>
 
               <select value={mode} onChange={handleModeChange} className='text-slate-200 w-[100%] px-1 py-2 border border-solid border-slate-500 rounded-lg bg-slate-900'>
-                {Constants.modes.map((mode) => <option key={mode.toString()} value={mode.toString()}>{mode}</option>)}
+                {Constants.modes.map((mode) => {
+                  return (
+                    <option 
+                      key={mode.toString()} 
+                      value={mode.toString()}
+                    >
+                      {mode}
+                    </option>
+                  )
+                })}
               </select>
             </div>
           </div>

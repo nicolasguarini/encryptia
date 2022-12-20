@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { NextRouter, useRouter } from 'next/router'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import JSXStyle from 'styled-jsx/style'
 import Layout from '../components/layout/Layout'
 import AlgorithmHeader from '../components/ui/AlgorithmHeader'
@@ -16,14 +16,23 @@ type Event = {
 
 export default function AES() {
     const router: NextRouter = useRouter()
-    const bits: string = Constants.AESVariants.includes(router.query.bits.toString()) 
-        ? router.query.bits.toString()
-        : Constants.AESVariants[0]
+    const [variant, setVariant] = useState<string>('')
+    let bits: string = ''
+
+    useEffect(() => {
+        if(!router.query.bits) return
+
+        bits = Constants.AESVariants.includes(router.query.bits.toString()) 
+            ? router.query.bits.toString()
+            : Constants.AESVariants[0]
+
+        setVariant(bits)
+    }, [router.query.bits])
 
     const [ciphertext, setCiphertext] = useState<string>('')
     const [plaintext, setPlaintext] = useState<string>('')
     const [key, setKey] = useState<string>('')
-    const [variant, setVariant] = useState<string>(bits)
+    
     const [encryptBtnContent, setEncryptBtnContent] = useState<string | JSX.Element>('Encrypt')
     const [decryptBtnContent, setDecryptBtnContent] = useState<string | JSX.Element>('Decrypt')
     const [errorMessage, setErrorMessage] = useState<string | JSX.Element>('')

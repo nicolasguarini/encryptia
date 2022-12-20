@@ -34,6 +34,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
                 hash: hash.toString()
             })
         }catch(e){
+            console.log(e)
             res.status(400).send({
                 message: e.toString()
             })
