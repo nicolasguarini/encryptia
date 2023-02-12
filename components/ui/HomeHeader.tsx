@@ -12,7 +12,7 @@ function HomeHeader() {
 
           <p className='mt-6 text-lg text-center max-w-3xl mx-auto text-slate-400'>
             You can also use encryptia for your personal projects with the free REST API reachable at <span className='font-mono font-medium text-sky-500'>/api/</span>! <br />
-            For detailed instructions, <Link href="https://github.com/nicolasguarini/encryptia/"><a className='underline'>read the docs</a></Link>!
+            For detailed instructions, <Link href="https://github.com/nicolasguarini/encryptia/" className='underline'>read the docs</Link>!
           </p>
           
           <p className='mt-3 text-sm text-center max-w-3xl mx-auto text-slate-500'>
