@@ -1,23 +1,29 @@
-import Head from "next/head";
-import { NextRouter, useRouter } from "next/router";
+'use client'
+
+import { useSearchParams } from "next/navigation";
 import { SetStateAction, useEffect, useState } from "react";
-import Layout from "../components/layout/Layout";
-import AlgorithmHeader from "../components/ui/AlgorithmHeader";
-import ErrorMessage from "../components/ui/ErrorMessage";
-import Loader from "../components/ui/Loader";
-import * as Constants from '../utils/constants'
+import Layout from "../../components/layout/Layout";
+import AlgorithmHeader from "../../components/ui/AlgorithmHeader";
+import ErrorMessage from "../../components/ui/ErrorMessage";
+import Loader from "../../components/ui/Loader";
+import * as Constants from '../../utils/constants'
+
+export const metadata = {
+    title: 'SHA | encryptia'
+}
 
 export default function SHA() {
-    const router: NextRouter = useRouter()
+    const searchParams = useSearchParams()
+    const searchV: string = searchParams.get('v')
     const [shaVariant, setShaVariant] = useState<string>('')
 
     useEffect(() => {
-        if(!router.query.v) return
+        if(!searchV) return
 
-        setShaVariant(Constants.SHAVariants.includes(router.query.v.toString())
-            ? router.query.v.toString()
+        setShaVariant(Constants.SHAVariants.includes(searchV)
+            ? searchV
             : Constants.SHAVariants[1] )
-    }, [router.query.v])
+    }, [searchV])
 
     const [plaintext, setPlaintext] = useState<string>('')
     const [hash, setHash] = useState<string>('')
@@ -62,10 +68,6 @@ export default function SHA() {
 
     return (
         <Layout>
-            <Head>
-                <title>SHA | encryptia</title>
-            </Head>
-
             <AlgorithmHeader name='SHA'>
                 <p>
                     SHA stands for Secure Hashing Algorithm. SHA is a modified version of MD5 and used for hashing data and certificates. 
