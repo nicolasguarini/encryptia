@@ -1,9 +1,14 @@
-import Head from "next/head";
+'use client'
+
 import { SetStateAction, useState } from "react";
-import Layout from "../components/layout/Layout";
-import AlgorithmHeader from "../components/ui/AlgorithmHeader";
-import ErrorMessage from "../components/ui/ErrorMessage";
-import Loader from "../components/ui/Loader";
+import Layout from "../../components/layout/Layout";
+import AlgorithmHeader from "../../components/ui/AlgorithmHeader";
+import ErrorMessage from "../../components/ui/ErrorMessage";
+import Loader from "../../components/ui/Loader";
+
+export const metadata = {
+    title: 'MD5 | encryptia'
+}
 
 export default function MD5() {
     const [plaintext, setPlaintext] = useState<string>('')
@@ -46,10 +51,6 @@ export default function MD5() {
 
     return (
         <Layout>
-            <Head>
-                <title>MD5 | encryptia</title>
-            </Head>
-
             <AlgorithmHeader name='MD5'>
                 <p>
                     The MD5 message-digest algorithm is a cryptographically broken but still widely used hash function producing a 128-bit hash value. 
