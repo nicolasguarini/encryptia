@@ -1,23 +1,29 @@
-import Head from 'next/head'
-import { NextRouter, useRouter } from 'next/router'
+'use client'
+
+import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import Layout from '../components/layout/Layout'
-import AlgorithmHeader from '../components/ui/AlgorithmHeader'
-import ErrorMessage from '../components/ui/ErrorMessage'
-import Loader from '../components/ui/Loader'
-import * as Constants from '../utils/constants'
+import Layout from '../../components/layout/Layout'
+import AlgorithmHeader from '../../components/ui/AlgorithmHeader'
+import ErrorMessage from '../../components/ui/ErrorMessage'
+import Loader from '../../components/ui/Loader'
+import * as Constants from '../../utils/constants'
+
+export const metadata = {
+  title: 'DES | encryptia', //TODO: implement dynamic DES/TDES title
+}
 
 export default function DES() {
-  const router: NextRouter = useRouter()
+  const searchParams = useSearchParams()
+  const isTriple: string = searchParams.get('triple')
+
   const [triple, setTriple] = useState<boolean>(false)
 
   useEffect(() => {
-    if(!router.query.triple) return 
+    if(!isTriple) return 
 
-    setTriple(router.query.triple == 'true')
-  }, [router.query.triple])
+    setTriple(isTriple == 'true')
+  }, [isTriple])
   
-
   const [ciphertext, setCiphertext] = useState<string>('')
   const [plaintext, setPlaintext] = useState<string>('')
   const [key, setKey] = useState<string>('')
@@ -88,10 +94,6 @@ export default function DES() {
 
   return (
     <Layout>
-        <Head>
-            <title>{triple ? 'TDES' : 'DES'} | encryptia</title>
-        </Head>
-
         <AlgorithmHeader name={triple ? 'Triple Data Encryption System' :  'Data Encryption System'}>
           {triple ? 
             <p>
