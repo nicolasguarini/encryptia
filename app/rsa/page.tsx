@@ -1,10 +1,15 @@
-import Head from 'next/head'
+'use client'
+
 import React, { useState } from 'react'
-import Layout from '../components/layout/Layout'
-import AlgorithmHeader from '../components/ui/AlgorithmHeader'
-import ErrorMessage from '../components/ui/ErrorMessage'
-import Loader from '../components/ui/Loader'
-import * as Constants from '../utils/constants'
+import Layout from '../../components/layout/Layout'
+import AlgorithmHeader from '../../components/ui/AlgorithmHeader'
+import ErrorMessage from '../../components/ui/ErrorMessage'
+import Loader from '../../components/ui/Loader'
+import * as Constants from '../../utils/constants'
+
+export const metadata = {
+    title: 'RSA | encryptia'
+}
 
 export default function RSA() {
     const [generateKeysBtnContent, setGenerateKeysBtnContent] = useState<string | JSX.Element>('Generate Keys')
@@ -117,10 +122,6 @@ export default function RSA() {
 
     return (
         <Layout>
-            <Head>
-                <title>RSA | encryptia</title>
-            </Head>
-
             <AlgorithmHeader name="Rivest-Shamir-Adleman">
                 RSA is a public-key cryptosystem that is widely used for secure data transmission. It is also one of the oldest. 
                 The acronym "RSA" comes from the surnames of Ron Rivest, Adi Shamir and Leonard Adleman, who publicly described the algorithm in 1977.<br />
