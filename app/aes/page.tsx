@@ -1,12 +1,16 @@
-import Head from 'next/head'
-import { NextRouter, useRouter } from 'next/router'
+'use client'
+
+import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import JSXStyle from 'styled-jsx/style'
-import Layout from '../components/layout/Layout'
-import AlgorithmHeader from '../components/ui/AlgorithmHeader'
-import ErrorMessage from '../components/ui/ErrorMessage'
-import Loader from '../components/ui/Loader'
-import * as Constants from '../utils/constants'
+import Layout from '../../components/layout/Layout'
+import AlgorithmHeader from '../../components/ui/AlgorithmHeader'
+import ErrorMessage from '../../components/ui/ErrorMessage'
+import Loader from '../../components/ui/Loader'
+import * as Constants from '../../utils/constants'
+
+export const metadata = {
+    title: 'AES | encryptia'
+}
 
 type Event = {
     target: {
@@ -15,19 +19,20 @@ type Event = {
 }
 
 export default function AES() {
-    const router: NextRouter = useRouter()
+    const searchParams = useSearchParams()
+    const searchBits: string = searchParams.get('bits')
     const [variant, setVariant] = useState<string>('')
     let bits: string = ''
 
     useEffect(() => {
-        if(!router.query.bits) return
+        if(!searchBits) return
 
-        bits = Constants.AESVariants.includes(router.query.bits.toString()) 
-            ? router.query.bits.toString()
+        bits = Constants.AESVariants.includes(searchBits) 
+            ? searchBits
             : Constants.AESVariants[0]
 
         setVariant(bits)
-    }, [router.query.bits])
+    }, [searchBits])
 
     const [ciphertext, setCiphertext] = useState<string>('')
     const [plaintext, setPlaintext] = useState<string>('')
@@ -91,10 +96,6 @@ export default function AES() {
 
     return (
         <Layout>
-            <Head>
-                <title>AES | encryptia</title>
-            </Head>
-
             <AlgorithmHeader name="Advanced Encryptrion Standard">
                 The Advanced Encryption Standard (AES), also known by its original name Rijndael,
                 is a specification for the encryption of electronic data established by the U.S. National Institute of Standards and Technology (NIST) in 2001.<br />
@@ -125,7 +126,6 @@ export default function AES() {
                     type="text" 
                     value={key}
                     onChange={handleKeyChange}
-                    maxLength={parseInt(variant) / 8}
                     className='bg-slate-900 border rounded-lg p-2 w-[100%] border-slate-500'
                 />
                 </div>
