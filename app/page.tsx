@@ -1,4 +1,5 @@
-import Head from 'next/head';
+'use client'
+
 import SymmetricEncryptionCard from '../components/ui/SymmetricEncryptionCard';
 import HomeHeader from '../components/ui/HomeHeader';
 import Layout from '../components/layout/Layout';
@@ -7,13 +8,14 @@ import CardsContainer from '../components/ui/CardsContainer';
 import AsymmetricEncryptionCard from '../components/ui/AsymmetricEncryptionCard';
 import HashCard from '../components/ui/HashCard';
 
-export default function Home() {
+export const metadata = {
+    title: 'encryptia'
+}
+
+export default function Page() {
   return (
     <Layout>
       <HomeHeader />
-      <Head>
-        <title>encryptia</title>
-      </Head>
 
       <CardsContainer>
         <SymmetricEncryptionCard 
